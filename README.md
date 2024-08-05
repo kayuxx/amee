@@ -38,8 +38,8 @@ export const { createSession, validateSession, createBlankSession } =
 
 ## Resources
 
-**[JWT](https://jwt.io)**
-**[Documentation](https://github.com/kayuxx/amee)**(soon)
+- **[JWT](https://jwt.io)**
+- **[Documentation](https://github.com/kayuxx/amee)**(soon)
 
 ## Contribution
 
