@@ -30,14 +30,11 @@ type SessionData = {
   email: string;
 };
 
-export const { createSession, validateSession, createBlankSession } = Amee<SessionData>(options);
+export const { createSession, validateSession, createBlankSession } =
+  Amee<SessionData>(options);
 ```
 
 ## Resources
 
 - **[JWT](https://jwt.io)**
 - **[Documentation](https://github.com/kayuxx/amee)**(soon)
-
-## Contribution
-
-- We welcome contributions from everyone! Whether you're fixing a bug, adding a feature, or improving documentation, your help is appreciated.
