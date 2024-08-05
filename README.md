@@ -30,8 +30,7 @@ type SessionData = {
   email: string;
 };
 
-export const { createSession, validateSession, createBlankSession } =
-  Amee<SessionData>(options);
+export const { createSession, validateSession, createBlankSession } = Amee<SessionData>(options);
 ```
 
 ## Resources
