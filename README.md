@@ -20,8 +20,6 @@ pnpmm add amee
 ## Usage
 
 ```ts
-// ./auth.ts
-
 const options: AmeeOptions = {
   secret: process.env.AUTH_SECRET,
   cookieName: "sessionId",
