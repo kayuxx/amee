@@ -11,6 +11,11 @@
   ],
   "license": "MIT",
   "author": "Zoheir Benghalem <kayuxx@tutanota.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kayuxx/amee"
+  },
+  "bugs": "https://github.com/kayuxx/amee/issues",
   "exports": {
     "import": "./dist/index.js",
     "require": "./dist/index.cjs"
