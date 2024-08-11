@@ -1,12 +1,11 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 import {Icon}  from "@astrojs/starlight/components"
-import { type Icons } from '@astrojs/starlight/components/Icons';
 
 interface Props {
 	variant: 'primary' | 'secondary' | 'minimal';
 	link: string;
-	icon?: undefined | { type: 'icon'; name: keyof typeof Icons } | { type: 'raw'; html: string };
+	icon?: undefined | { type: 'icon'; name: string } | { type: 'raw'; html: string };
 	attrs?: Omit<HTMLAttributes<'a'>, 'href'> | undefined;
 }
 
@@ -16,7 +15,10 @@ const { class: customClass, ...attrs } = Astro.props.attrs || {};
 
 <a class:list={['sl-flex action', variant, customClass]} href={link} {...attrs}>
 	<slot />
-	{icon?.type === 'icon' && <Icon name={icon.name} size="1.5rem" />}
+  {
+  // @ts-expect-error: property name should have a type of `keyof typeof Icons`. Starlight doesn't provide that interface.
+  icon?.type === 'icon' && <Icon name={icon.name} size="1.5rem" />
+  }
 	{icon?.type === 'raw' && <Fragment set:html={icon.html} />}
 </a>
 
