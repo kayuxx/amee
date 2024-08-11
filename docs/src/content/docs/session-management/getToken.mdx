@@ -1,0 +1,29 @@
+---
+title: Get Token
+description: Simple and stateless library for managing sessions with JWT.
+---
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Tabs>
+  <TabItem label="Next.js">
+  
+Within the form action, import [createBlankSession](/reference/createBlankSession)
+
+  ```ts
+  // src/actions/auth.ts
+  "use server"
+  import { cookies } from "next/headers"
+  import { createBlankSession } from "@/auth"
+  
+  // Should be defined right after imports
+  const blankSession = createBlankSession()
+  
+  // .. 
+  export async function getToken(): string {
+    const cookieName = blankSession.name
+    return cookies().get(cookieName)?.value ?? ""
+  }
+  
+  ```
+  </TabItem>
+</Tabs>

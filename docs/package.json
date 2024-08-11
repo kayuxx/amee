@@ -1,0 +1,21 @@
+{
+  "name": "amee-documentation",
+  "version": "0.0.1",
+  "dependencies": {
+    "@astrojs/check": "^0.9.2",
+    "@astrojs/starlight": "^0.25.4",
+    "@fontsource/inter": "^5.0.20",
+    "@fontsource/roboto-mono": "^5.0.18",
+    "astro": "^4.10.2",
+    "sharp": "^0.32.5",
+    "typescript": "^5.5.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "type": "module"
+}
