@@ -14,7 +14,7 @@ export default defineConfig({
     }),
     starlight({
       title: "Amee",
-      favicon: "./public/favicon.ico",
+      favicon: "/favicon.ico",
       editLink: {
         baseUrl: "https://github.com/kayuxx/amee/tree/main/docs",
       },
