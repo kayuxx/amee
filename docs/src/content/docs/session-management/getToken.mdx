@@ -1,8 +1,12 @@
 ---
 title: Get Token
 description: Simple and stateless library for managing sessions with JWT.
+sidebar:
+  order: 3
 ---
 import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+You can use `getToken` to retrieve the JWT token from a cookie using [createBlankSession](/reference/createblanksession). This is primarily used to validate or destroy the session, regardless of your use case.
 
 <Tabs>
   <TabItem label="Next.js">

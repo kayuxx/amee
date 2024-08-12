@@ -157,13 +157,13 @@ declare module 'astro:content' {
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".md"] };
-"index.mdx": {
-	id: "index.mdx";
+"index.md": {
+	id: "index.md";
   slug: "index";
   body: string;
   collection: "docs";
   data: InferEntrySchema<"docs">
-} & { render(): Render[".mdx"] };
+} & { render(): Render[".md"] };
 "reference/functions/amee.md": {
 	id: "reference/functions/amee.md";
   slug: "reference/functions/amee";
@@ -269,6 +269,13 @@ declare module 'astro:content' {
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".mdx"] };
+"session-management/index.md": {
+	id: "session-management/index.md";
+  slug: "session-management";
+  body: string;
+  collection: "docs";
+  data: InferEntrySchema<"docs">
+} & { render(): Render[".md"] };
 "session-management/logout.mdx": {
 	id: "session-management/logout.mdx";
   slug: "session-management/logout";

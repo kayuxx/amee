@@ -6,7 +6,7 @@ hero:
   tagline: Get started with Amee, the simple and stateless library for managing sessions with JWT.
   actions:
     - text: Get Started
-      link: /getting-started/installation
+      link: /getting-started/introduction
       icon: right-arrow
       variant: primary
     - text: Source Code

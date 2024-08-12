@@ -6,21 +6,24 @@ import astroExpressiveCode from "astro-expressive-code";
 export default defineConfig({
   integrations: [
     astroExpressiveCode({
-      // Replace the default themes with a custom set of bundled themes:
-      // "dracula" (a dark theme) and "solarized-light"
       styleOverrides: {
         codeLineHeight: "1",
         codeFontFamily: "Roboto Mono",
       },
-      themes: ["poimandres"],
+      themes: ["poimandres", "rose-pine-dawn"],
     }),
     starlight({
       title: "Amee",
+      favicon: "./public/favicon.ico",
+      editLink: {
+        baseUrl: "https://github.com/kayuxx/amee/tree/main/docs",
+      },
       social: {
         github: "https://github.com/kayuxx/amee",
       },
       components: {
         Hero: "./src/components/Hero.astro",
+        EditLink: "./src/components/EditLink.astro",
       },
       customCss: [
         "./src/styles/custom.css",
@@ -29,7 +32,6 @@ export default defineConfig({
         "@fontsource/inter/600.css",
         "@fontsource/roboto-mono/400.css",
       ],
-      credits: false,
       sidebar: [
         {
           label: "Getting Started",
@@ -54,7 +56,8 @@ export default defineConfig({
         },
         {
           label: "Reference",
-          autogenerate: { directory: "reference" },
+          collapsed: true,
+          autogenerate: { directory: "reference", collapsed: true },
         },
       ],
     }),

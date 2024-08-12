@@ -11,13 +11,13 @@ The session cookie.
 session?: SessionData;
 ```
 
-The type (generic) that is provided by the user.
+The type that should be passed to [Amee](/reference/functions/amee) as generic.
 
 ```ts
 token?: JWTClaimsMutable;
 ```
 
-JWT claims that are mutable and safe to modify
+Mutable JWT claims that can be modified.
 
 ## See Also
 

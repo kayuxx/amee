@@ -1,8 +1,12 @@
 ---
 title: SignUp
 description: Simple and stateless library for managing sessions with JWT.
+sidebar:
+  order: 1
 ---
 import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Allows users to register in your application using their credentials.
 
 <Tabs>
   <TabItem label="Next.js">
@@ -29,12 +33,12 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
   }
   ```
 ## Handle Signup
-Within the form action, get and validate the user credentials, if its valid, hash the password and insert them into the database, Then, either redirect the user to the sign-in page or, create a session using [createSession](/reference/createSession), set the session cookie, and redirect to the protected route directly.
+Within the form action, get and validate the user credentials, if its valid, hash the password and insert them into the database, Then, either redirect the user to the sign-in page or, create a session using [createSession](/reference/createSession), set the session cookie, and redirect the user to the protected route.
 
 
 It is recommended to validate the user credentials client-side and server-side before proceeding.
 
-You can use [useActionState](https://react.dev/reference/react/useActionState) to return a value and display a message to the user.
+You can also use [useActionState](https://react.dev/reference/react/useActionState) to return a value and display a message to the user.
 
   ```ts
   // src/actions/auth.ts

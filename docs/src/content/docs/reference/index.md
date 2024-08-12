@@ -1,12 +1,18 @@
 ---
 title: API Reference
 description: Amee reference page.
+collapsed: true
 ---
 
-## Functions
+Describes all available functions and interfaces, including their parameters, return types, and usage examples.
 
-- [Amee](/reference/amee)
+The utilities provided by Amee for use:
 
-## Interfaces
+### Functions
 
-- [AmeeOptions](/reference/AmeeOptions)
+- [Amee](/reference/functions/amee)
+
+### Interfaces
+
+- [AmeeOptions](/reference/types/ameeoptions)
+

@@ -1,8 +1,12 @@
 ---
 title: Get Session
 description: Simple and stateless library for managing sessions with JWT.
+sidebar:
+  order: 4
 ---
 import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+`getSession` allows you to retrieve the user session object, which enables you to perform logic based on it. A common use case is to protect certain routes or display user information, such as a name or profile picture.
 
 <Tabs>
   <TabItem label="Next.js">
