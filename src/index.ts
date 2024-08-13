@@ -1,1 +1,1 @@
-export { Amee, type AmeeOptions } from "./amee.ts";
+export { Amee, type AmeeOptions } from "./core/amee.ts";

@@ -26,5 +26,6 @@
     "target": "ES2022",
     "verbatimModuleSyntax": true
   },
-  "exclude": ["dist", "examples/next"]
+  "include": ["src/**/*", "tsup.config.ts"],
+  "exclude": ["dist", "docs"]
 }

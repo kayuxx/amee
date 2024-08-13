@@ -2,11 +2,13 @@ import { defineConfig } from "tsup";
 
 export default defineConfig([
   {
-    entry: ["src/index.ts"],
-    clean: true,
-    // this setting inlines the types from dependencies we use, like `cookie`
-    dts: { resolve: true },
+    entry: {
+      index: "src/index.ts",
+      "providers/index": "./src/oauth/index.ts",
+    },
     format: ["esm", "cjs"],
+    dts: true,
+    clean: true,
     treeshake: true,
     sourcemap: true,
   },

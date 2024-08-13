@@ -1,4 +1,4 @@
-import { Amee, type AmeeOptions } from "./amee.ts";
+import { Amee, type AmeeOptions } from "core/amee.ts";
 import { expect, test } from "vitest";
 
 const ameeOptions: AmeeOptions = {

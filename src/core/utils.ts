@@ -1,4 +1,4 @@
-import type { CookieAttributesCore } from "session.ts";
+import type { CookieAttributesCore } from "./session.ts";
 import type { AmeeOptions } from "./amee.ts";
 
 /**
