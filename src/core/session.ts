@@ -2,15 +2,15 @@ import { Decode, Encode } from "./jwt.ts";
 import type { AmeeOptions } from "./amee.ts";
 import type { JWTPayload } from "jose";
 
-// The default expiration value for cookie in millisecond is 30 Days.
-const THIRTEEN_DAYS_IN_MS = 30 * 24 * 60 * 60;
+// The default expiration value for cookie in seconds is 30 Days.
+const THIRTEEN_DAYS = 30 * 24 * 60 * 60;
 
 export function initializeSession<SessionData>(
   options: AmeeOptions,
 ): initializeSessionResult<SessionData> {
   const cookieAttributes: CookieAttributes = {
     ...options.cookie,
-    maxAge: options.maxAge ?? THIRTEEN_DAYS_IN_MS,
+    maxAge: options.maxAge ?? THIRTEEN_DAYS,
   };
   return {
     createBlankSession() {

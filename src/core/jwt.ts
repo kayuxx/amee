@@ -19,8 +19,8 @@ import type { AmeeOptions } from "./amee.ts";
 const kty = "oct";
 const enc = "A256CBC-HS512";
 const alg = "dir";
-// The default expiration value for cookie in millisecond is 30 Days.
-const THIRTEEN_DAYS_IN_MS = 30 * 24 * 60 * 60;
+// The default expiration value for cookie in seconds is 30 Days.
+const THIRTEEN_DAYS = 30 * 24 * 60 * 60;
 const now = () => Math.floor(Date.now() / 1000);
 const cookieMaximumByte = 4096;
 
@@ -28,7 +28,7 @@ type Digest = Parameters<typeof calculateJwkThumbprint>[1];
 
 // Encode The JWT, using A256CBC-HS512 Encryption
 export async function Encode<P>(params: EncodeParams<P>) {
-  const { secret, payload, salt = "", maxAge = THIRTEEN_DAYS_IN_MS } = params;
+  const { secret, payload, salt = "", maxAge = THIRTEEN_DAYS } = params;
   const encryptionKey = await deriveEncryptionKey(enc, secret, salt);
   const JwkThumbprint = await calculateJwkThumbprint(
     { kty, k: base64url.encode(encryptionKey) },
