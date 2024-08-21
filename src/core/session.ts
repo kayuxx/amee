@@ -91,8 +91,8 @@ export function initializeSession<SessionData>(
   };
 }
 
-// Using `Pick` instead of `Omit` because it doesn't work as expected in this case.
-// Additionally, `Pick` helps to eliminate the index signature from the type.
+// Remove the index signature from the type
+// and split it into two separate types
 /**
  * Immutable JWT Claims, that cannot be modified.
  */
