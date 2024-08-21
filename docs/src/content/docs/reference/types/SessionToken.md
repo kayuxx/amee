@@ -1,9 +1,9 @@
 ---
-title: SessionCookie
+title: SessionToken
 description: Simple and stateless library for managing sessions with JWT.
 ---
 
-The session cookie.
+The session token type for the [createSession](/reference/functions/createsession) callback.
 
 ## Properties
 

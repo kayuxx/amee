@@ -248,9 +248,9 @@ declare module 'astro:content' {
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".mdx"] };
-"reference/types/SessionCookie.md": {
-	id: "reference/types/SessionCookie.md";
-  slug: "reference/types/sessioncookie";
+"reference/types/SessionToken.md": {
+	id: "reference/types/SessionToken.md";
+  slug: "reference/types/sessiontoken";
   body: string;
   collection: "docs";
   data: InferEntrySchema<"docs">
