@@ -40,16 +40,16 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@panva/hkdf": "^1.2.1",
-    "jose": "^5.6.3"
+    "@panva/hkdf": "1.2.1",
+    "jose": "5.6.3"
   },
   "devDependencies": {
     "@polka/send-type": "^0.5.2",
     "@types/cookie": "0.6.0",
-    "@types/node": "20.14.12",
+    "@types/node": "20.16.1",
     "@types/polka": "^0.5.7",
-    "@typescript-eslint/eslint-plugin": "7.17.0",
-    "@typescript-eslint/parser": "7.17.0",
+    "@typescript-eslint/eslint-plugin": "7.18.0",
+    "@typescript-eslint/parser": "7.18.0",
     "body-parser": "^1.20.2",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
@@ -59,8 +59,8 @@
     "eslint-plugin-prettier": "5.2.1",
     "polka": "^0.5.2",
     "prettier": "3.3.3",
-    "tsup": "8.2.3",
+    "tsup": "8.2.4",
     "typescript": "5.5.4",
-    "vitest": "^2.0.5"
+    "vitest": "2.0.5"
   }
 }

@@ -6,6 +6,7 @@ export interface GoogleTokenResponse {
   refresh_token: string | undefined;
   scope: string;
   token_type: string;
+  id_token: string;
 }
 
 export function Google(

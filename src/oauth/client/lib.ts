@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { decodeJwt, type JWTPayload } from "jose";
 /*
  * Get the Web Crypto API if available
  * Or relie on Node.js crypto module
@@ -33,7 +34,7 @@ async function sha256(arrayBuffer: ArrayBuffer): Promise<ArrayBuffer> {
     const buffer = hash.update(Buffer.from(arrayBuffer)).digest();
     const res = buffer.buffer.slice(
       buffer.byteOffset,
-      buffer.byteOffset + buffer.byteLength,
+      buffer.byteOffset + buffer.byteLength
     );
 
     return res;
@@ -51,7 +52,7 @@ function base64Url(buf: ArrayBuffer) {
 
 export async function generateCodeChallange(
   codeVerifier: string,
-  method: "S256" | "plain",
+  method: "S256" | "plain"
 ): Promise<string> {
   if (method === "S256") {
     const encodedCodeVerifier = new TextEncoder().encode(codeVerifier);
@@ -62,7 +63,7 @@ export async function generateCodeChallange(
     return codeVerifier;
   }
   throw new Error(
-    `[Amee]: "codeChallengeMethod" Missing, "${method}" is not a valid value.`,
+    `[Amee]: "codeChallengeMethod" Missing, "${method}" is not a valid value.`
   );
 }
 
@@ -84,13 +85,19 @@ export function generateRandomToken(): string {
   } catch (err) {
     if (err instanceof Error) {
       throw new Error(
-        `[Amee] Failed to generate random string: ${err.message}`,
+        `[Amee] Failed to generate random string: ${err.message}`
       );
     } else {
       // Unexpected error type
       throw new Error(
-        "[Amee] An unknown error occurred while generating the random string.",
+        "[Amee] An unknown error occurred while generating the random string."
       );
     }
   }
+}
+/**
+ * decode the id_token
+ */
+export function decodeIdToken(id_token: string): JWTPayload {
+  return decodeJwt(id_token);
 }
