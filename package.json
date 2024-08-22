@@ -1,6 +1,6 @@
 {
   "name": "amee",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Simple and stateless library for managing sessions with JWT.",
   "keywords": [
     "jwt",
@@ -44,8 +44,6 @@
     "jose": "5.6.3"
   },
   "devDependencies": {
-    "@polka/send-type": "^0.5.2",
-    "@types/cookie": "0.6.0",
     "@types/node": "20.16.1",
     "@types/polka": "^0.5.7",
     "@typescript-eslint/eslint-plugin": "7.18.0",
@@ -53,14 +51,12 @@
     "body-parser": "^1.20.2",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
-    "eslint-import-resolver-node": "0.3.9",
-    "eslint-import-resolver-typescript": "3.6.1",
-    "eslint-plugin-import": "2.29.1",
     "eslint-plugin-prettier": "5.2.1",
     "polka": "^0.5.2",
+    "@polka/send-type": "^0.5.2",
     "prettier": "3.3.3",
     "tsup": "8.2.4",
-    "typescript": "5.5.4",
+    "typescript": "latest",
     "vitest": "2.0.5"
   }
 }
