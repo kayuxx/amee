@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import { decodeJwt, type JWTPayload } from "jose";
+
 /*
  * Get the Web Crypto API if available
  * Or relie on Node.js crypto module
@@ -28,7 +29,10 @@ async function sha256(arrayBuffer: ArrayBuffer): Promise<ArrayBuffer> {
   // Use the Web Crypto API if available
   if (webcrypto?.subtle) {
     return await webcrypto.subtle.digest("SHA-256", arrayBuffer);
-  } else if (crypto && crypto.createHash) {
+  } else if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.createHash == "function"
+  ) {
     // Use Node.js crypto module if Web Crypto API is not available
     const hash = crypto.createHash("sha256");
     const buffer = hash.update(Buffer.from(arrayBuffer)).digest();
@@ -62,6 +66,7 @@ export async function generateCodeChallange(
   } else if (method === "plain") {
     return codeVerifier;
   }
+
   throw new Error(
     `[Amee]: "codeChallengeMethod" Missing, "${method}" is not a valid value.`
   );
@@ -69,35 +74,37 @@ export async function generateCodeChallange(
 
 /**
  * Generate a secure random string token
- * Used to generate both the code verifier and the state.
  */
 export function generateRandomToken(): string {
-  const randomValues = new Uint8Array(32);
   const webcrypto = getWebCrypto();
   if (webcrypto?.subtle) {
+    const randomValues = new Uint8Array(32);
     webcrypto.getRandomValues(randomValues);
     return base64Url(randomValues);
-  }
-
-  try {
-    crypto.getRandomValues(randomValues);
+  } else if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.randomBytes == "function"
+  ) {
+    const randomValues = crypto.randomBytes(32);
     return base64Url(randomValues);
+  }
+  throw new Error("[Amee] No suitable cryptographic API available.");
+}
+
+/**
+ * Decode the given id_token
+ * for the OpenID Connect protocol
+ */
+export function decodeIdToken(id_token: string): JWTPayload {
+  try {
+    return decodeJwt(id_token);
   } catch (err) {
     if (err instanceof Error) {
       throw new Error(
-        `[Amee] Failed to generate random string: ${err.message}`
+        "[Amee]: Failed to decode the given id_token: " + err.message
       );
     } else {
-      // Unexpected error type
-      throw new Error(
-        "[Amee] An unknown error occurred while generating the random string."
-      );
+      throw err;
     }
   }
-}
-/**
- * decode the id_token
- */
-export function decodeIdToken(id_token: string): JWTPayload {
-  return decodeJwt(id_token);
 }

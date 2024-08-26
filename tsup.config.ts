@@ -6,6 +6,7 @@ export default defineConfig({
     "providers/index": "./src/oauth/index.ts"
   },
   format: ["esm", "cjs"],
+  outDir: "dist",
   dts: true,
   clean: true,
   treeshake: true

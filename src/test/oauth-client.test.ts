@@ -1,7 +1,8 @@
 import { expect, test } from "vitest";
 import { OAuth2Client, OAuth2RequestError } from "../oauth/client/client.ts";
 import { mockServer } from "./mock-server.ts";
-import { generateCodeChallange } from "../oauth/client/lib.ts";
+import { decodeIdToken, generateCodeChallange } from "../oauth/client/lib.ts";
+import { SignJWT } from "jose";
 
 test("should correctly generate the authorization URI", async () => {
   const server = mockServer();
@@ -154,4 +155,28 @@ test("should send a refresh token request to refresh the `access_token`", async 
   });
   const token = await client.refreshAccessToken("access_token_000");
   expect(token.access_token).toStrictEqual("access_token_000");
+});
+
+test("should decode the id token", async () => {
+  const payload = {
+    name: "John Doe",
+    email: "johndoe@example.com"
+  };
+
+  // Assuming that this is the actual ID token
+  const id_token = await new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .sign(Buffer.from("somesecret"));
+  const token = decodeIdToken(id_token);
+
+  expect(token).toEqual(payload);
+});
+
+test("should throw error when the token is invalid", () => {
+  // Assuming that this is the actual ID token
+  const id_token = "invalid-token";
+
+  expect(() => decodeIdToken(id_token)).toThrow(
+    /Failed to decode the given id_token/
+  );
 });
