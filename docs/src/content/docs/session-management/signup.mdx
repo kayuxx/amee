@@ -14,8 +14,9 @@ Allows users to register in your application using their credentials.
   Start by creating a new page, then create a form and add the necessary input fields.
   ```ts
   // src/app/pages/signup.ts
+  import SignUp from "@/src/actions/auth"
+  
   export default function Page() {
-    import SignUp from "@/src/actions/auth"
     return (
       <div>
         <h1>Create account</h1>

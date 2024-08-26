@@ -14,8 +14,9 @@ Allows registered users to stay authenticated in your application using their cr
   Start by creating a new page, then create a form and add the necessary input fields.
   ```ts
   // src/app/pages/signin.ts
+  import SignIn from "@/src/actions/auth"
+  
   export default function Page() {
-    import SignIn from "@/src/actions/auth"
     return (
       <div>
         <h1>Sign in to youre account</h1>

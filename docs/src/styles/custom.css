@@ -31,3 +31,15 @@ div.expressive-code > figure.frame > pre ~ div.copy > div.feedback {
     display: none;
   }
 }
+
+/* cant customize it in expressive-code configuration */
+div.expressive-code
+  > figure.frame
+  > pre
+  > code
+  > div.ec-line
+  > div.code
+  > span {
+  --1fs: normal !important;
+  --0fs: normal !important;
+}

@@ -27,6 +27,10 @@ The Amee session cookie.
 
 ```ts
 const blankSession = createBlankSession();
+// Delete the cookie
+cookies.delete(blankSession.name);
+// Get the raw JWT token
+const token = cookies().get(blankSession.name)?.value;
 ```
 
 ### See Also

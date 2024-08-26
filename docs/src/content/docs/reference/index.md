@@ -12,6 +12,7 @@ The utilities provided by Amee for use:
 
 - [Amee](/reference/functions/amee)
 - [generateRandomtoken](/reference/functions/generaterandomtoken)
+- [decodeIdToken](/reference/functions/decodeidtoken)
 
 ### Interfaces
 

@@ -185,6 +185,13 @@ declare module 'astro:content' {
   collection: "docs";
   data: InferEntrySchema<"docs">
 } & { render(): Render[".md"] };
+"reference/functions/decodeIdToken.md": {
+	id: "reference/functions/decodeIdToken.md";
+  slug: "reference/functions/decodeidtoken";
+  body: string;
+  collection: "docs";
+  data: InferEntrySchema<"docs">
+} & { render(): Render[".md"] };
 "reference/functions/generateRandomToken.md": {
 	id: "reference/functions/generateRandomToken.md";
   slug: "reference/functions/generaterandomtoken";
