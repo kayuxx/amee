@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { decodeJwt, type JWTPayload } from "jose";
+import { base64url, decodeJwt, type JWTPayload } from "jose";
 
 /*
  * Get the Web Crypto API if available
@@ -47,11 +47,8 @@ async function sha256(arrayBuffer: ArrayBuffer): Promise<ArrayBuffer> {
   throw new Error("[Amee] No suitable cryptographic API available.");
 }
 
-function base64Url(buf: ArrayBuffer) {
-  return btoa(String.fromCharCode(...new Uint8Array(buf)))
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
+function base64Url(buf: ArrayBuffer): string {
+  return base64url.encode(new Uint8Array(buf));
 }
 
 export async function generateCodeChallange(

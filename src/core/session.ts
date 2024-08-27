@@ -1,4 +1,4 @@
-import { Decode, Encode } from "./jwt.ts";
+import { decrypt, encrypt } from "./jwt.ts";
 import type { AmeeOptions } from "./amee.ts";
 import type { JWTPayload } from "jose";
 
@@ -6,18 +6,18 @@ import type { JWTPayload } from "jose";
 const THIRTEEN_DAYS = 30 * 24 * 60 * 60;
 
 export function initializeSession<SessionData>(
-  options: AmeeOptions,
+  options: AmeeOptions
 ): initializeSessionResult<SessionData> {
   const cookieAttributes: CookieAttributes = {
     ...options.cookie,
-    maxAge: options.maxAge ?? THIRTEEN_DAYS,
+    maxAge: options.maxAge ?? THIRTEEN_DAYS
   };
   return {
     createBlankSession() {
       return {
         name: options.cookieName,
         value: "",
-        options: cookieAttributes,
+        options: cookieAttributes
       };
     },
     async createSession(callback): Promise<AmeeSessionCookie> {
@@ -32,12 +32,12 @@ export function initializeSession<SessionData>(
       // which are immutable as they are set when the data is encoded.
       const sessionData = callback({
         session: {} as SessionData,
-        token: {} as JWTClaimsMutable,
+        token: {} as JWTClaimsMutable
       });
 
       if (Object.keys(sessionData.session!).length === 0) {
         throw new Error(
-          "[Amee]: No session data was provided. Make sure the session contains data.",
+          "[Amee]: No session data was provided. Make sure the session contains data."
         );
       }
 
@@ -45,14 +45,15 @@ export function initializeSession<SessionData>(
         secret: options.secret,
         salt: options.salt!, // salt has a default value
         maxAge: options.maxAge!, // maxAge has a default value
-        payload: { ...sessionData.session, ...sessionData.token },
+        payload: { ...sessionData.session, ...sessionData.token }
       };
 
-      const jweCompact = await Encode(params);
+      const jweCompact = await encrypt(params);
+
       return {
         value: jweCompact,
         name: options.cookieName,
-        options: cookieAttributes,
+        options: cookieAttributes
       };
     },
 
@@ -60,10 +61,10 @@ export function initializeSession<SessionData>(
       const params = {
         secret: options.secret,
         salt: options.salt!, // salt has a default value
-        jwtToken,
+        jwtToken
       };
 
-      const JWTpayload = await Decode<SessionData>(params);
+      const JWTpayload = await decrypt(params);
       if (!JWTpayload) return null;
 
       const { iat, iss, exp, aud, jti, nbf, sub, ...session } = JWTpayload;
@@ -72,7 +73,7 @@ export function initializeSession<SessionData>(
         session: {
           // user type exactly match the type that is provided
           user: session as SessionData,
-          expires: ISOFormat,
+          expires: ISOFormat
         },
         // `jti`, `exp`, and `iat` are set and have values.
         // All other claims are either set to a value or `undefined`.
@@ -84,10 +85,10 @@ export function initializeSession<SessionData>(
           iss,
           aud,
           nbf,
-          sub,
-        },
+          sub
+        }
       };
-    },
+    }
   };
 }
 
@@ -106,11 +107,9 @@ type JWTClaimsMutable = Pick<JWTPayload, "sub" | "nbf" | "iss" | "aud">;
 /**
  * Amee JWT Claims
  */
-type AmeeJWTClaims =
-  & Required<JWTClaimsImmutable>
-  & {
-    [K in keyof JWTClaimsMutable]: JWTClaimsMutable[K] | undefined;
-  };
+type AmeeJWTClaims = Required<JWTClaimsImmutable> & {
+  [K in keyof JWTClaimsMutable]: JWTClaimsMutable[K] | undefined;
+};
 
 /**
  * the returned value from `createSession` and `createBlankSession`
@@ -131,12 +130,10 @@ type AmeeSessionCookie = {
  * @property session `{user: SessionData, expires: string}`
  * @property token `AmeeJWTClaims`
  */
-type AmeeSession<SessionData> = Promise<
-  {
-    session: { user: SessionData; expires: string };
-    token: AmeeJWTClaims;
-  } | null
->;
+type AmeeSession<SessionData> = Promise<{
+  session: { user: SessionData; expires: string };
+  token: AmeeJWTClaims;
+} | null>;
 
 /**
  * the `createSession` callback param type
@@ -214,7 +211,7 @@ export interface initializeSessionResult<S> {
      * Data exceeding this length cannot be stored in cookies due to size limitations. @param {SessionToken<S>} sessionToken
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#data_storage}
      */
-    callback: (sessionToken: SessionToken<S>) => SessionToken<S>,
+    callback: (sessionToken: SessionToken<S>) => SessionToken<S>
   ) => Promise<AmeeSessionCookie>;
   createBlankSession: () => AmeeSessionCookie;
 }

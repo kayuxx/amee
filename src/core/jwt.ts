@@ -11,7 +11,7 @@ import {
   calculateJwkThumbprint,
   EncryptJWT,
   jwtDecrypt,
-  type JWTPayload,
+  type JWTPayload
 } from "jose";
 import { hkdf } from "@panva/hkdf";
 import type { AmeeOptions } from "./amee.ts";
@@ -26,35 +26,35 @@ const cookieMaximumByte = 4096;
 
 type Digest = Parameters<typeof calculateJwkThumbprint>[1];
 
-// Encode The JWT, using A256CBC-HS512 Encryption
-export async function Encode<P>(params: EncodeParams<P>) {
+// Encrypt The JWT, using A256CBC-HS512 Encryption
+export async function encrypt(params: EncodeParams) {
   const { secret, payload, salt = "", maxAge = THIRTEEN_DAYS } = params;
   const encryptionKey = await deriveEncryptionKey(enc, secret, salt);
   const JwkThumbprint = await calculateJwkThumbprint(
     { kty, k: base64url.encode(encryptionKey) },
-    `sha${encryptionKey.byteLength << 3}` as Digest,
+    `sha${encryptionKey.byteLength << 3}` as Digest
   );
 
   // Encrypt the payload
-  const jwt = await new EncryptJWT(payload as JWTPayload) // accepts any object as payload
+  const jwt = await new EncryptJWT(payload as JWTPayload)
     .setProtectedHeader({ alg, enc, kid: JwkThumbprint })
     .setIssuedAt()
     .setExpirationTime(now() + maxAge)
     .setJti(crypto.randomUUID())
     .encrypt(encryptionKey);
 
-  // Throws an error if the JWT token exceeds the maximum byte size allowed for cookies.
+  // Throw an error if the JWT token exceeds the maximum byte size allowed for cookies.
   if (jwt.length > cookieMaximumByte) {
     throw new Error(
-      `[Amee]: JWT length is too large to be set by the browser (${jwt.length} bytes). Try to reduce the amount of data.`,
+      `[Amee]: JWT length is too large to be set by the browser (${jwt.length} bytes). Try to reduce the amount of data.`
     );
   }
 
   return jwt as string;
 }
 
-// Decode The issued JWT
-export async function Decode<Payload>(params: DecodeParams) {
+// Decrypt The issued JWT
+export async function decrypt(params: DecodeParams) {
   const { jwtToken, secret, salt = "" } = params;
   if (!jwtToken) return null; // missing jwtToken
 
@@ -66,7 +66,7 @@ export async function Decode<Payload>(params: DecodeParams) {
 
       const Jwkthumbprint = await calculateJwkThumbprint(
         { kty, k: base64url.encode(encryptionKey) },
-        `sha${encryptionKey.byteLength << 3}` as Digest,
+        `sha${encryptionKey.byteLength << 3}` as Digest
       );
 
       if (kid === Jwkthumbprint) return encryptionKey;
@@ -76,20 +76,20 @@ export async function Decode<Payload>(params: DecodeParams) {
     {
       contentEncryptionAlgorithms: [enc],
       keyManagementAlgorithms: [alg],
-      clockTolerance: 15,
-    },
+      clockTolerance: 15
+    }
   );
-  return jwtPayload as JWTPayload & Payload;
+  return jwtPayload as JWTPayload;
 }
 
 /**
- * derive a cryptographically strong secret key using HKDF.
+ * derive a secret key using HKDF.
  * @see {@link https://www.rfc-editor.org/rfc/rfc5869}
  */
 async function deriveEncryptionKey(
   enc: string,
   keyMaterial: Parameters<typeof hkdf>[1],
-  salt: Parameters<typeof hkdf>[2],
+  salt: Parameters<typeof hkdf>[2]
 ) {
   // Handle unexpected encryption algorithm
   if (enc !== "A256CBC-HS512") {
@@ -101,17 +101,15 @@ async function deriveEncryptionKey(
     keyMaterial,
     salt,
     `Amee Encryption Key Generated [${enc}, ${salt}, sha256]`,
-    64,
+    64
   );
 }
 
-interface EncodeParams<CustomPayload>
-  extends Pick<AmeeOptions, "secret" | "salt" | "maxAge"> {
-  /** The JWT payload. */
-  payload?: CustomPayload;
-}
+type EncodeParams = Pick<AmeeOptions, "secret" | "salt" | "maxAge"> & {
+  payload: JWTPayload;
+};
 
-interface DecodeParams extends Pick<AmeeOptions, "secret" | "salt"> {
+type DecodeParams = Pick<AmeeOptions, "secret" | "salt"> & {
   /** JWT Token (The Compact JWE) */
   jwtToken: string | Uint8Array;
-}
+};
