@@ -12,7 +12,7 @@ export interface AmeeOptions {
    * The secret key should be specified in the options
    * Used in combination with `salt`, to derive the encryption secret for JWT.
    */
-  secret: string;
+  secret: string | string[];
   /**
    * Used in combination with `secret`, to derive the encryption secret for JWT.
    */

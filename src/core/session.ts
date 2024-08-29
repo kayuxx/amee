@@ -4,7 +4,7 @@ import type { JWTPayload } from "jose";
 
 // The default expiration value for cookie in seconds is 30 Days.
 const THIRTEEN_DAYS = 30 * 24 * 60 * 60;
-
+const cookieMaximumByte = 4096;
 export function initializeSession<SessionData>(
   options: AmeeOptions
 ): initializeSessionResult<SessionData> {
@@ -49,6 +49,12 @@ export function initializeSession<SessionData>(
       };
 
       const jweCompact = await encode(params);
+      // Throw an error if the JWT token exceeds the maximum byte size allowed for cookies.
+      if (jweCompact.length > cookieMaximumByte) {
+        throw new Error(
+          `[Amee]: JWT length is too large to be set by the browser (${jweCompact.length} bytes). Try to reduce the amount of data.`
+        );
+      }
 
       return {
         value: jweCompact,

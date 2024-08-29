@@ -10,9 +10,9 @@ Amee is a TypeScript library designed for managing sessions with JWTs. It simpli
 
 ## Installation
 
-| npm                                 | bun                                   | yarn                                   | pnpm                                   |
-| ----------------------------------- | ------------------------------------- | -------------------------------------- | -------------------------------------- |
-| <pre>`npm i amee`&nbsp;&nbsp;</pre> | <pre>`bun add amee`&nbsp;&nbsp;</pre> | <pre>`yarn add amee`&nbsp;&nbsp;</pre> | <pre>`pnpm add amee`&nbsp;&nbsp;</pre> |
+| npm                    | bun                       | yarn                       | pnpm                       |
+| ---------------------- | ------------------------- | -------------------------- | -------------------------- |
+| <pre>`npm i amee</pre> | <pre>`bun add amee`</pre> | <pre>`yarn add amee`</pre> | <pre>`pnpm add amee`</pre> |
 
 ## Usage
 
