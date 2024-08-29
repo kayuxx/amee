@@ -8,13 +8,13 @@ The Configuration options to initialize [Amee](/reference/functions/amee)
 ## Properties
 
 ```ts
-secret: string
+secret: string | string[]
 ```
 
 Used in combination with `salt`, to derive the encryption secret for JWT.
 
 ```ts
-cookieName: string
+cookieName: string;
 ```
 
 The Cookie name that is used to get the session and the cookie options.
