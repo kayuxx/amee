@@ -10,19 +10,16 @@ Amee is a TypeScript library designed for managing sessions with JWTs. It simpli
 
 ## Installation
 
-```cmd
-npm i amee
-bun add amee
-yarn add amee
-pnpmm add amee
-```
+| npm                                                   | bun                                                     | yarn                                                     | pnpm                                                     |
+| ----------------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| <pre>`npm i amee`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</pre> | <pre>`bun add amee`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</pre> | <pre>`yarn add amee`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</pre> | <pre>`pnpm add amee`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</pre> |
 
 ## Usage
 
 ```ts
 const options: AmeeOptions = {
   secret: process.env.AUTH_SECRET,
-  cookieName: "sessionId",
+  cookieName: "sessionId"
 };
 
 type SessionData = {
@@ -30,11 +27,11 @@ type SessionData = {
   email: string;
 };
 
-export const { createSession, validateSession, createBlankSession } =
-  Amee<SessionData>(options);
+export const amee = Amee<SessionData>(options);
 ```
 
 ## Resources
 
 - **[JWT](https://jwt.io)**
-- **[Documentation](https://github.com/kayuxx/amee)**(soon)
+- **[OAuth](https://www.oauth.com)**
+- **[Documentation](https://amee-auth.vercel.app)**

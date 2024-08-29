@@ -1,4 +1,4 @@
-import { decrypt, encrypt } from "./jwt.ts";
+import { decode, encode } from "./jwt.ts";
 import type { AmeeOptions } from "./amee.ts";
 import type { JWTPayload } from "jose";
 
@@ -48,7 +48,7 @@ export function initializeSession<SessionData>(
         payload: { ...sessionData.session, ...sessionData.token }
       };
 
-      const jweCompact = await encrypt(params);
+      const jweCompact = await encode(params);
 
       return {
         value: jweCompact,
@@ -64,7 +64,7 @@ export function initializeSession<SessionData>(
         jwtToken
       };
 
-      const JWTpayload = await decrypt(params);
+      const JWTpayload = await decode(params);
       if (!JWTpayload) return null;
 
       const { iat, iss, exp, aud, jti, nbf, sub, ...session } = JWTpayload;

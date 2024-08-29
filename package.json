@@ -15,6 +15,7 @@
     "type": "git",
     "url": "https://github.com/kayuxx/amee"
   },
+  "homepage": "https://amee-auth.vercel.app",
   "bugs": "https://github.com/kayuxx/amee/issues",
   "type": "module",
   "sideEffects": false,
