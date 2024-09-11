@@ -37,16 +37,11 @@ export function Github(
   }
 
   async function verifyAuthorizationCode(
-    code: string,
-    codeVerifier: string
+    code: string
   ): Promise<GithubTokenResponse> {
-    const options = {
-      codeVerifier
-    };
     const token = await client.verifyAuthorizationCode(
       code,
-      clientOptions.redirectUri,
-      options
+      clientOptions.redirectUri
     );
 
     return token as GithubTokenResponse;
