@@ -4,18 +4,21 @@ import { mockServer } from "./mock-server.ts";
 import { decodeIdToken, generateCodeChallange } from "../oauth/client/lib.ts";
 import { SignJWT } from "jose";
 
-test("should correctly generate the authorization URI", async () => {
-  const server = mockServer();
-  const client = new OAuth2Client({
-    clientId: "clientid_000",
+const createClient = (serverUrl: string) =>
+  new OAuth2Client({
+    clientId: "client_id_000",
     clientSecret: "client_secret_000",
-    tokenHost: server.url,
+    tokenHost: serverUrl,
     authorizationEndpoint: "/authorize",
     tokenEndpoint: "/token"
   });
+
+test("should correctly generate the authorization URI", async () => {
+  const server = mockServer();
+  const client = createClient(server.url);
   const redirect_uri = server.url + "/callback";
   const params = new URLSearchParams({
-    client_id: "clientid_000",
+    client_id: "client_id_000",
     response_type: "code",
     redirect_uri,
     scope: "a b",
@@ -32,13 +35,7 @@ test("should correctly generate the authorization URI", async () => {
 
 test("should correctly generate the authorization URI using PKCE flow", async () => {
   const server = mockServer();
-  const client = new OAuth2Client({
-    clientId: "client_id_000",
-    clientSecret: "client_secret_000",
-    tokenHost: server.url,
-    authorizationEndpoint: "/authorize",
-    tokenEndpoint: "/token"
-  });
+  const client = createClient(server.url);
   const redirect_uri = server.url + "/callback";
   const codeChallenge = await generateCodeChallange("codeverifier_000", "S256");
   const params = new URLSearchParams({
@@ -67,13 +64,7 @@ test("should correctly generate the authorization URI using PKCE flow", async ()
 
 test("should include the extra params in the authorization URI if specified", async () => {
   const server = mockServer();
-  const client = new OAuth2Client({
-    clientId: "client_id_000",
-    clientSecret: "client_secret_000",
-    tokenHost: server.url,
-    authorizationEndpoint: "/authorize",
-    tokenEndpoint: "/token"
-  });
+  const client = createClient(server.url);
   const redirect_uri = server.url + "/callback";
   const params = new URLSearchParams({
     client_id: "client_id_000",
@@ -99,13 +90,7 @@ test("should include the extra params in the authorization URI if specified", as
 
 test("should send requests to the token end point", async () => {
   const server = mockServer();
-  const client = new OAuth2Client({
-    clientId: "client_id_000",
-    clientSecret: "client_secret_000",
-    tokenHost: server.url,
-    authorizationEndpoint: "/authorize",
-    tokenEndpoint: "/token"
-  });
+  const client = createClient(server.url);
   const redirect_uri = server.url + "/callback";
   const token = await client.verifyAuthorizationCode("code_000", redirect_uri);
   expect(token.access_token).toStrictEqual("access_token_000");
@@ -113,13 +98,7 @@ test("should send requests to the token end point", async () => {
 
 test("should throw an error when the request fails or the `access_token` is missing in the response", async () => {
   const server = mockServer();
-  const client = new OAuth2Client({
-    clientId: "client_id_000",
-    clientSecret: "client_secret_000",
-    tokenHost: server.url,
-    authorizationEndpoint: "/authorize",
-    tokenEndpoint: "/token"
-  });
+  const client = createClient(server.url);
   const redirect_uri = server.url + "/callback";
   const verifyAuthorizationCode = () =>
     client.verifyAuthorizationCode("", redirect_uri);
@@ -146,13 +125,7 @@ test("should throw an error when the request fails or the `access_token` is miss
 
 test("should send a refresh token request to refresh the `access_token`", async () => {
   const server = mockServer();
-  const client = new OAuth2Client({
-    clientId: "client_id_000",
-    clientSecret: "client_secret_000",
-    tokenHost: server.url,
-    authorizationEndpoint: "/authorize",
-    tokenEndpoint: "/token"
-  });
+  const client = createClient(server.url);
   const token = await client.refreshAccessToken("access_token_000");
   expect(token.access_token).toStrictEqual("access_token_000");
 });
@@ -178,5 +151,32 @@ test("should throw error when the token is invalid", () => {
 
   expect(() => decodeIdToken(id_token)).toThrow(
     /Failed to decode the given id_token/
+  );
+});
+
+test("should modify the request", async () => {
+  const server = mockServer();
+  const client = new OAuth2Client(
+    {
+      clientId: "client_id_000",
+      clientSecret: "client_secret_000",
+      tokenHost: server.url,
+      authorizationEndpoint: "/authorize",
+      tokenEndpoint: "/token"
+    },
+    (request, clientSettings) => {
+      request.headers.set("Accept", "application/xml");
+      request.headers.set("X-Some-Header", clientSettings.clientId);
+      return request;
+    }
+  );
+  // send a request
+  await client.verifyAuthorizationCode("code_000", server.url + "/callback");
+
+  expect(server.lastRequest().headers["accept"]).toStrictEqual(
+    "application/xml"
+  );
+  expect(server.lastRequest().headers["x-some-header"]).toStrictEqual(
+    "client_id_000"
   );
 });

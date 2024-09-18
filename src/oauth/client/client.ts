@@ -99,10 +99,22 @@ export interface OAuth2ErrorResponse {
   error_uri?: string;
 }
 
+type TModifyRequest = (
+  /**
+   * The request that is already configured
+   */
+  request: Request,
+  /**
+   * Credentials and OAuth2 endpoints
+   */
+  clientSettings: ClientSettings
+) => Request;
+
 export class OAuth2Client {
   private settings: ClientSettings;
+  public modifyRequest: TModifyRequest | undefined;
 
-  constructor(gSettings: ClientSettings) {
+  constructor(gSettings: ClientSettings, modifyRequest?: TModifyRequest) {
     if (gSettings.tokenHost) {
       gSettings.tokenEndpoint = gSettings.tokenHost + gSettings.tokenEndpoint;
       gSettings.authorizationEndpoint =
@@ -110,6 +122,7 @@ export class OAuth2Client {
     }
 
     this.settings = gSettings;
+    this.modifyRequest = modifyRequest;
   }
 
   public async getAuthorizationUri(
@@ -178,11 +191,16 @@ export class OAuth2Client {
     headers.set("Content-Type", "application/x-www-form-urlencoded");
     headers.set("Accept", "application/json");
 
-    const request = new Request(this.settings.tokenEndpoint, {
+    let request = new Request(this.settings.tokenEndpoint, {
       method: "POST",
       headers,
       body
     });
+
+    // some providers use different approaches to get the access_token.
+    if (typeof this.modifyRequest === "function") {
+      request = this.modifyRequest(request, this.settings);
+    }
 
     const response = await fetch(request);
     // The result could either be an error or the actual token response

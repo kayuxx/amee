@@ -2,11 +2,12 @@ import polka from "polka";
 import { json, urlencoded } from "body-parser";
 // @ts-expect-error: The declaration file is declared.
 import send from "@polka/send-type";
+import { type Request } from "polka";
 
 type MockServer = {
   port: number;
   url: string;
-  close: () => void;
+  lastRequest: () => Request;
 };
 
 declare module "express-serve-static-core" {
@@ -28,7 +29,7 @@ const successResponse = {
   token_type: "bearer",
   expires_in: Math.floor(Date.now() / 1000) + 60 * 60 * 6
 };
-
+let currRequest: Request;
 // A basic simulation for the authorization code flow
 export function mockServer(): MockServer {
   const PORT = 30000 + Math.round(Math.random() * 9999);
@@ -43,6 +44,7 @@ export function mockServer(): MockServer {
   app.use(urlencoded({ extended: true }));
 
   app.post("/token", function (req, res) {
+    currRequest = req as unknown as Request;
     const {
       client_id,
       client_secret,
@@ -51,7 +53,6 @@ export function mockServer(): MockServer {
       grant_type,
       refresh_token
     } = req.body;
-
     if (grant_type !== "refresh_token") {
       if (
         !code ||
@@ -79,6 +80,6 @@ export function mockServer(): MockServer {
   return {
     url: "http://localhost:" + PORT,
     port: PORT,
-    close: () => app.server?.close()
+    lastRequest: () => currRequest
   };
 }
