@@ -4,3 +4,5 @@ export {
   MicrosoftEntraID,
   type MicrosoftEntraIDTokenResponse
 } from "./providers/microsoft-entra.ts";
+export { Facebook, type FacebookTokenResponse } from "./providers/facebook.ts";
+export { Faceit, type FaceitTokenResponse } from "./providers/faceit.ts";

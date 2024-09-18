@@ -64,19 +64,19 @@ export interface OAuth2TokenResponse {
   /**
    * The type of token issued. Typically "Bearer".
    */
-  token_type: string | undefined;
+  token_type?: string;
   /**
    * The number of seconds until the access token expires.
    */
-  expires_in: number | undefined;
+  expires_in?: number;
   /**
    * The refresh token used to obtain a new access token.
    */
-  refresh_token: string | undefined;
+  refresh_token?: string;
   /**
    * The permissions or access levels requested.
    */
-  scope: string | undefined;
+  scope?: string;
 }
 
 /**
