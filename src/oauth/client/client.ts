@@ -197,7 +197,7 @@ export class OAuth2Client {
       body
     });
 
-    // some providers use different approaches to get the access_token.
+    // some providers use different approaches to get the token
     if (typeof this.modifyRequest === "function") {
       request = this.modifyRequest(request, this.settings);
     }
