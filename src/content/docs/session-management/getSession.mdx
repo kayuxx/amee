@@ -1,0 +1,29 @@
+---
+title: Get Session
+description: Simple and stateless library for managing sessions with JWT.
+sidebar:
+  order: 4
+---
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+`getSession` allows you to retrieve the user session object, which enables you to perform logic based on it. A common use case is to protect certain routes or display user information, such as a name or profile picture.
+
+<Tabs>
+  <TabItem label="Next.js">
+Within the form action, import [validateSession](/reference/validateSession) then use [getToken](/session-managment/getToken) to get the token value.
+
+  ```ts
+  // src/actions/auth.ts
+  "use server"
+  import { cookies } from "next/headers"
+  import { validateSession } from "@/auth"
+  
+  // ...
+  export async function getSession() {
+    const token = getToken()
+    const session = await validateSession(token)
+    return session.session
+  }
+  ```
+  </TabItem>
+</Tabs>

@@ -1,0 +1,25 @@
+---
+title: AmeeSession
+description: Simple and stateless library for managing sessions with JWT.
+---
+
+The session object, that `validateSession` should return
+
+## Properties
+
+```ts
+session: { user: SessionData, expires: string }
+```
+
+The Session that is provided by the user, and the expiration time in ISO Format.
+
+```ts
+token: AmeeJWTClaims
+```
+
+The JWT Claims.
+
+
+## See Also
+
+- [AmeeJWTClaims](/reference/types/ameejwtclaims)

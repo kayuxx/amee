@@ -1,0 +1,94 @@
+---
+title: SignIn
+description: Simple and stateless library for managing sessions with JWT.
+sidebar:
+  order: 2
+---
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Allows registered users to stay authenticated in your application using their credentials.
+
+<Tabs>
+  <TabItem label="Next.js">
+## Signin Page
+  Start by creating a new page, then create a form and add the necessary input fields.
+  ```ts
+  // src/app/pages/signin.ts
+  import SignIn from "@/src/actions/auth"
+  
+  export default function Page() {
+    return (
+      <div>
+        <h1>Sign in to youre account</h1>
+        <form action={SignIn}>
+            <label htmlFor="username">username</label>
+            <input type="text" name="username" id="username" />
+            <br />
+            <label htmlFor="password">password</label>
+            <input type="text" name="password" id="password" />
+            <br />
+            <button type="submit">Submit</button>
+        </form>
+      </div>
+    )
+  }
+  ```
+## Handle Signin
+Within a form action. get the user credentials, check them in the database, and if its correct, create a session for the user using [createSession](/reference/createSession) and set the session cookie, then redirect the user to the protected route if needed.
+
+It is recommended to validate the user credentials client-side and server-side before proceeding.
+
+You can use [useActionState](https://react.dev/reference/react/useActionState) to return a value and display a message to the user.
+
+  ```ts
+  // src/actions/auth.ts
+  "use server"
+  import { cookies } from "next/headers"
+  import bcrypt from "bcrypt"
+  import { redirect } from "next/navigation"
+  import { createSession } from "@/auth"
+  
+  export async function SignIn(formData: FromData) {
+  // USER CREDENTIALS
+   const credentials = {
+     username: formData.get("username") as string,
+     password: formData.get("password") as string
+   }
+   
+   // VALIDATE USER CREDENTIALS, USERNAME AND PASSWORD 
+   // CHECK USER IN DB
+   const existingUser = await db.users.findUnique({
+     where: {
+       username: credentials.username
+     }
+   })
+   if (!existingUser) {
+    // Ensure that the messages do not reveal if the username is valid or not
+    // to prevent attackers from identifying valid usernames for brute-force attacks.
+    // @see https://www.cloudflare.com/learning/bots/brute-force-attack/
+    return {
+      message: "Wrong credentials, Please try again"
+    }
+   }
+   // VERIFY THE PASSWORD
+   const isMatch = bcyrpt.compare(credentials.password, existingUser.hash_password)
+   if (!isMatch) {
+     return {
+      message: "Wrong credentials, Please try again"
+     }
+   }
+   
+  const sessionCookie = await createSession((sessionToken) => {
+      const sessionToken.session.name = user.name
+      const sessionToken.session.email = user.email
+      return sessionToken   
+    })   
+      
+    cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.options)
+    
+    redirect("/dashboard")
+  }
+  ```
+  </TabItem>
+</Tabs>
+
