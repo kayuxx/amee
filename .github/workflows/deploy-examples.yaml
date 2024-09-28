@@ -1,0 +1,30 @@
+name: Deploy netlify example site
+
+on:
+  push:
+    branches: 
+      - example
+  pull_request:
+    branches: 
+      - example
+    types:
+      - closed
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: "Deploy site on push"
+        if: github.event_name == 'push'
+        run: | 
+          echo A commit was pushed
+          curl -X POST -d {} ${{ secrets.NETLIFY_EXAMPLE_BUILD_HOOK }}
+        
+      - name: "Deploy site when PR is merged"
+        if: github.event_name == 'pull_request' && github.event.pull_request.merged == true 
+        run: |
+          echo The PR was merged
+          curl -X POST -d {} ${{ secrets.NETLIFY_EXAMPLE_BUILD_HOOK }}
