@@ -1,17 +1,15 @@
 name: "Tests"
-
 on:
   push:
-    branches: 
+    branches:
       - main
   pull_request:
-    branches: 
+    branches:
       - main
-    types: 
+    types:
       - opened
       - reopened
       - synchronize
-
 jobs:
   test:
     runs-on: ubuntu-latest

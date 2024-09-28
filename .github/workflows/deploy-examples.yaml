@@ -1,15 +1,13 @@
 name: Deploy netlify example site
-
 on:
   push:
-    branches: 
+    branches:
       - examples
   pull_request:
-    branches: 
+    branches:
       - examples
     types:
       - closed
-    
 jobs:
   build:
     runs-on: ubuntu-latest
