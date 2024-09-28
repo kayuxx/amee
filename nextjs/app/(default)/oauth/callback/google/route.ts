@@ -13,12 +13,12 @@ export async function GET(request: NextRequest) {
   const codeVerifier = cookies().get("code_verifier")?.value;
   if (!state || state !== cookieState || !codeVerifier || !code) {
     return Response.redirect(
-      new URL("/error?message=Unauthorized", request.url)
+      new URL("/error?message=Unauthorized", request.url),
     );
   }
   try {
     const token = await google.verifyAuthorizationCode(code, codeVerifier);
-    // make sure that userInfo custom cliams are actually exists
+    // make sure that userInfo custom claims are actually exists
     // when decoding the id_token
     const userInfo = decodeIdToken(token.id_token);
 
@@ -32,19 +32,19 @@ export async function GET(request: NextRequest) {
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.options
+      sessionCookie.options,
     );
     return Response.redirect(new URL("/", request.url));
   } catch (err) {
     if (err instanceof OAuth2RequestError) {
       return Response.redirect(
         new URL("/error?message=Bad Request", request.url),
-        400
+        400,
       );
     }
     return Response.redirect(
       new URL("/error?message=Something went wrong", request.url),
-      500
+      500,
     );
   }
 }

@@ -11,22 +11,22 @@ export async function GET(request: NextRequest) {
   const cookieState = cookies().get("state")?.value;
   if (!state || state !== cookieState || !code) {
     return Response.redirect(
-      new URL("/error?message=Unauthorized", request.url)
+      new URL("/error?message=Unauthorized", request.url),
     );
   }
   try {
     const token = await github.verifyAuthorizationCode(code);
     const userResponse = await fetch("https://api.github.com/user", {
       headers: {
-        Authorization: `Bearer ${token.access_token}`
-      }
+        Authorization: `Bearer ${token.access_token}`,
+      },
     });
     const userInfo = await userResponse.json();
 
     const emailsResponse = await fetch("https://api.github.com/user/emails", {
       headers: {
-        Authorization: `Bearer ${token.access_token}`
-      }
+        Authorization: `Bearer ${token.access_token}`,
+      },
     });
 
     const emails: { email: string; primary: boolean }[] =
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.options
+      sessionCookie.options,
     );
     console.log({ userInfo });
     return Response.redirect(new URL("/", request.url));
@@ -58,12 +58,12 @@ export async function GET(request: NextRequest) {
     if (err instanceof OAuth2RequestError) {
       return Response.redirect(
         new URL("/error?message=Bad Request", request.url),
-        400
+        400,
       );
     }
     return Response.redirect(
       new URL("/error?message=Something went wrong", request.url),
-      500
+      500,
     );
   }
 }
