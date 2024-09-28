@@ -3,10 +3,10 @@ name: Deploy netlify example site
 on:
   push:
     branches: 
-      - example
+      - examples
   pull_request:
     branches: 
-      - example
+      - examples
     types:
       - closed
     
