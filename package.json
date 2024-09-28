@@ -1,6 +1,6 @@
 {
   "name": "amee-documentation",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {
     "@astrojs/check": "^0.9.2",
     "@astrojs/starlight": "^0.25.4",
@@ -19,3 +19,4 @@
   },
   "type": "module"
 }
+
