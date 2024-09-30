@@ -16,6 +16,8 @@ Amee is a TypeScript library designed for managing sessions with JWTs. It simpli
 
 ## Usage
 
+Check out our example website [here](https://amee-example.netlify.app/)
+
 ```ts
 const options: AmeeOptions = {
   secret: process.env.AUTH_SECRET,
